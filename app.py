@@ -1,5 +1,5 @@
-import streamlit as st
 import numpy as np
+import streamlit as st
 import nltk
 from nltk.corpus import stopwords, twitter_samples
 import re, string
@@ -100,9 +100,9 @@ if user_input:
     sentiment = predict_tweet(user_input, freqs, theta)
     st.write(f"Sentiment score: {sentiment:.2f}")
 
-    if sentiment > 0.6:
+    if sentiment > 0.7:
         st.write("The sentiment of the tweet is **Positive**.")
-    elif sentiment < 0.4:
+    elif sentiment < 0.3:
         st.write("The sentiment of the tweet is **Negative**.")
     else:
         st.write("The sentiment of the tweet is **Neutral**.")
