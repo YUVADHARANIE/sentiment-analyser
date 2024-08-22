@@ -92,16 +92,16 @@ Y = train_y
 J, theta = gradientDescent(X, Y, np.zeros((3, 1)), 1e-9, 1500)
 
 # Streamlit App
-st.title("Tweet Sentiment Analysis")
+st.title("Sentiment Analyser")
 
 user_input = st.text_input("Enter a tweet for sentiment analysis:")
 
 if user_input:
     sentiment = predict_tweet(user_input, freqs, theta)
     
-    if sentiment > 0.6:
+    if sentiment > 0.7:
         st.write("The sentiment of the tweet is **Positive**.")
-    elif sentiment < 0.4:
+    elif sentiment < 0.3:
         st.write("The sentiment of the tweet is **Negative**.")
-    elif 0.4 <= sentiment <= 0.6:
+    else:
         st.write("The sentiment of the tweet is **Neutral**.")
