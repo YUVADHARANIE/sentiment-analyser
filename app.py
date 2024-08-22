@@ -4,23 +4,21 @@ from nltk.corpus import stopwords
 from textblob import TextBlob
 import string
 
-# Set NLTK data path
-nltk.data.path.append('/app/nltk_data')  # Adjust this path if necessary
+# Download stopwords if they are not already available
+nltk.download('stopwords', quiet=True)
 
-# Download stopwords
-try:
-    nltk.download('stopwords', quiet=True)
-except Exception as e:
-    st.write(f"Error downloading stopwords: {e}")
-    stopwords_list = []
-else:
-    stopwords_list = stopwords.words('english')
+# Load stopwords
+stopwords_list = stopwords.words("english")
 
 def preprocess_text(text):
+    # Remove punctuation and convert to lowercase
     text = text.lower()
     text = "".join([char for char in text if char not in string.punctuation])
+
+    # Tokenization and remove stopwords
     words = text.split()
     words = [word for word in words if word not in stopwords_list]
+
     return " ".join(words)
 
 def analyze_sentiment(text):
@@ -32,6 +30,7 @@ def analyze_sentiment(text):
     else:
         return "Negative"
 
+# Streamlit app code
 st.title("Sentiment Analysis App")
 
 st.write("Enter the text below to analyze its sentiment:")
