@@ -66,14 +66,6 @@ def predict_tweet(tweet, freqs, theta):
     y_pred = sigmoid(np.dot(x, theta))
     return y_pred
 
-def test_logistic_regression(test_x, test_y, freqs, theta):
-    y_hat = []
-    for tweet in test_x:
-        y_pred = predict_tweet(tweet, freqs, theta)
-        y_hat.append(1 if y_pred > 0.5 else 0)
-    accuracy = (y_hat == np.squeeze(test_y)).sum() / len(test_x)
-    return accuracy
-
 # Preparing the data
 all_positive_tweets = twitter_samples.strings('positive_tweets.json')
 all_negative_tweets = twitter_samples.strings('negative_tweets.json')
@@ -92,16 +84,17 @@ Y = train_y
 J, theta = gradientDescent(X, Y, np.zeros((3, 1)), 1e-9, 1500)
 
 # Streamlit App
-st.title("Sentiment Analyser")
+st.title("Tweet Sentiment Analysis")
 
 user_input = st.text_input("Enter a tweet for sentiment analysis:")
 
 if user_input:
     sentiment = predict_tweet(user_input, freqs, theta)
-    
-    if sentiment > 0.7:
+    st.write(f"Sentiment score: {sentiment:.2f}")
+
+    if sentiment > 0.6:
         st.write("The sentiment of the tweet is **Positive**.")
-    elif sentiment < 0.3:
-        st.write("The sentiment of the tweet is **Negative**.")
-    else:
+    elif sentiment >= 0.4:
         st.write("The sentiment of the tweet is **Neutral**.")
+    else:
+        st.write("The sentiment of the tweet is **Negative**.")
