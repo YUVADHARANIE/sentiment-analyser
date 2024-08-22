@@ -8,7 +8,7 @@ import re, string
 nltk.download('stopwords')
 nltk.download('twitter_samples')
 
-# Process the input tweet
+# Define your functions (e.g., process_tweet, build_freqs, etc.)
 def process_tweet(tweet):
     stemmer = nltk.PorterStemmer()
     stopwords_english = stopwords.words('english')
@@ -64,7 +64,15 @@ def extract_features(tweet, freqs):
 def predict_tweet(tweet, freqs, theta):
     x = extract_features(tweet, freqs)
     y_pred = sigmoid(np.dot(x, theta))
-    return y_pred
+    return float(y_pred)  # Ensure it's a float
+
+def test_logistic_regression(test_x, test_y, freqs, theta):
+    y_hat = []
+    for tweet in test_x:
+        y_pred = predict_tweet(tweet, freqs, theta)
+        y_hat.append(1 if y_pred > 0.5 else 0)
+    accuracy = (y_hat == np.squeeze(test_y)).sum() / len(test_x)
+    return accuracy
 
 # Preparing the data
 all_positive_tweets = twitter_samples.strings('positive_tweets.json')
@@ -94,7 +102,7 @@ if user_input:
 
     if sentiment > 0.6:
         st.write("The sentiment of the tweet is **Positive**.")
-    elif sentiment >= 0.4:
-        st.write("The sentiment of the tweet is **Neutral**.")
-    else:
+    elif sentiment < 0.4:
         st.write("The sentiment of the tweet is **Negative**.")
+    else:
+        st.write("The sentiment of the tweet is **Neutral**.")
