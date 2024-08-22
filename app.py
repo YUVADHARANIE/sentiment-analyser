@@ -98,9 +98,10 @@ user_input = st.text_input("Enter a tweet for sentiment analysis:")
 
 if user_input:
     sentiment = predict_tweet(user_input, freqs, theta)
+    
     if sentiment > 0.6:
         st.write("The sentiment of the tweet is **Positive**.")
     elif sentiment < 0.4:
         st.write("The sentiment of the tweet is **Negative**.")
-    else:
+    elif 0.4 <= sentiment <= 0.6:
         st.write("The sentiment of the tweet is **Neutral**.")
