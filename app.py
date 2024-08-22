@@ -8,6 +8,9 @@ import re, string
 nltk.download('stopwords')
 nltk.download('twitter_samples')
 
+# Define your functions (e.g., process_tweet, build_freqs, etc.)
+# You can reuse the functions you've already written
+
 # Process the input tweet
 def process_tweet(tweet):
     stemmer = nltk.PorterStemmer()
@@ -92,15 +95,13 @@ Y = train_y
 J, theta = gradientDescent(X, Y, np.zeros((3, 1)), 1e-9, 1500)
 
 # Streamlit App
-st.title("Tweet Sentiment Analysis")
+st.title("Sentiment Analyser")
 
 user_input = st.text_input("Enter a tweet for sentiment analysis:")
 
 if user_input:
     sentiment = predict_tweet(user_input, freqs, theta)
-    if sentiment > 0.6:
+    if sentiment > 0.5:
         st.write("The sentiment of the tweet is **Positive**.")
-    elif sentiment < 0.4:
-        st.write("The sentiment of the tweet is **Negative**.")
     else:
-        st.write("The sentiment of the tweet is **Neutral**.")
+        st.write("The sentiment of the tweet is **Negative**.")
